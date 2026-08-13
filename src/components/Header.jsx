@@ -78,12 +78,18 @@ function Navigation({ mobile = false, onNavigate }) {
               className={
                 mobile
                   ? 'block border-b border-black/10 px-5 py-4 text-lg transition-colors hover:bg-[#f7f3ef] focus-visible:bg-[#f7f3ef] focus-visible:outline-none'
-                  : 'rounded-sm transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217]'
+                  : 'group relative inline-block rounded-sm py-1 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217]'
               }
               href={link.href}
               onClick={onNavigate}
             >
               {link.label}
+              {!mobile && (
+                <span
+                  className="pointer-events-none absolute -bottom-1 left-0 h-0.5 w-full origin-right scale-x-0 bg-[#2f2217] transition-transform duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100"
+                  aria-hidden="true"
+                />
+              )}
             </a>
           </li>
         ))}
