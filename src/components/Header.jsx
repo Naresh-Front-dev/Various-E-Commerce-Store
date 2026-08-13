@@ -98,6 +98,40 @@ function Navigation({ mobile = false, onNavigate }) {
   )
 }
 
+function MobileMenuSearch() {
+  return (
+    <form
+      className="border-b border-black/10 px-5 py-5 sm:px-8 sm:py-6"
+      role="search"
+      onSubmit={(event) => event.preventDefault()}
+    >
+      <label
+        className="mb-2.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-[#2f2217]/60"
+        htmlFor="mobile-site-search"
+      >
+        Search our collection
+      </label>
+      <div className="flex min-h-14 items-center overflow-hidden rounded-[10px] border border-[#2f2217]/25 bg-[#f7f3ef] transition-colors focus-within:border-[#2f2217]">
+        <span className="ml-4 grid shrink-0 place-items-center text-[#2f2217]" aria-hidden="true">
+          <SearchIcon />
+        </span>
+        <input
+          id="mobile-site-search"
+          className="min-w-0 flex-1 bg-transparent px-3 text-base text-[#2f2217] outline-none placeholder:text-[#2f2217]/45"
+          type="search"
+          placeholder="Search products"
+        />
+        <button
+          className="mr-1.5 grid min-h-11 shrink-0 place-items-center rounded-[8px] bg-[#2f2217] px-4 text-sm font-medium text-white transition-colors hover:bg-[#493627] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217] sm:px-5"
+          type="submit"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+  )
+}
+
 function Header({ cartCount, cartOpen, onCartOpen }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -149,6 +183,7 @@ function Header({ cartCount, cartOpen, onCartOpen }) {
 
         <div className="ml-auto flex shrink-0 items-center gap-3">
           <HeaderAction
+            className="hidden xl:grid"
             label={searchOpen ? 'Close search' : 'Open search'}
             onClick={toggleSearch}
             aria-expanded={searchOpen}
@@ -208,7 +243,11 @@ function Header({ cartCount, cartOpen, onCartOpen }) {
       )}
 
       {menuOpen && (
-        <div id="mobile-navigation" className="absolute inset-x-0 top-full border-b border-black/20 bg-white shadow-lg xl:hidden">
+        <div
+          id="mobile-navigation"
+          className="absolute inset-x-0 top-full max-h-[calc(100dvh-88px)] overflow-y-auto border-b border-black/20 bg-white shadow-lg xl:hidden"
+        >
+          <MobileMenuSearch />
           <Navigation mobile onNavigate={() => setMenuOpen(false)} />
         </div>
       )}
