@@ -503,7 +503,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
             >
               <CartIcon />
               {cartCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 grid min-h-5 min-w-5 place-items-center rounded-full bg-[#2f2217] px-1 text-[11px] leading-none text-white">
+                <span className="absolute -right-1.5 -top-1.5 grid min-h-5 min-w-5 place-items-center rounded-full bg-[#2f2217] p-1.5 text-[11px] leading-none text-white">
                   {cartCount}
                 </span>
               )}

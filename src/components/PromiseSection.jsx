@@ -34,11 +34,15 @@ function PromiseSection() {
             className="absolute right-0 top-0 aspect-square w-1/2 rounded-xl object-cover"
             src={blackDish}
             alt="Black ceramic dish photographed individually"
+            loading="lazy"
+            decoding="async"
           />
           <img
             className="absolute bottom-0 left-0 aspect-square w-1/2 rounded-xl object-cover"
             src={mineralDish}
             alt="Speckled ceramic dish with a green mineral"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>

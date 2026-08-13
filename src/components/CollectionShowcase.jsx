@@ -27,6 +27,7 @@ function CollectionCard({ product, onAdd }) {
           src={product.image}
           alt={product.alt}
           loading="lazy"
+          decoding="async"
         />
         <AddToCartButton className="absolute bottom-4 right-4" product={product} onAdd={onAdd} />
       </div>

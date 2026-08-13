@@ -11,6 +11,7 @@ function ProductCard({ product, onAdd, priority = false, className = '' }) {
             alt={product.alt}
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
+            decoding="async"
           />
         </div>
         <div className="pointer-events-none absolute inset-x-[-1px] bottom-0 h-1/5 bg-gradient-to-b from-transparent to-black" />

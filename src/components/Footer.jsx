@@ -7,7 +7,7 @@ function FooterTicker() {
 
   return (
     <div className="h-[68px] overflow-hidden bg-[#201d1b] text-[#c7a980]" aria-label="Shopping benefits">
-      <div className="flex h-full w-max animate-[ticker_28s_linear_infinite] items-center motion-reduce:animate-none">
+      <div className="flex h-full w-max animate-[ticker_28s_linear_infinite] items-center [will-change:transform] motion-reduce:animate-none motion-reduce:[will-change:auto]">
         {tickerItems.map((item, index) => (
           <span className="flex items-center gap-8 px-7 text-[10px] uppercase tracking-[0.24em] sm:px-10 sm:text-xs" key={`${item}-${index}`}>
             <span aria-hidden="true">•</span>

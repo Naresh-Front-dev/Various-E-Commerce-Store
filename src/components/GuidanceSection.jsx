@@ -51,6 +51,8 @@ function GuidanceSection() {
                   className={`size-full object-contain ${step.image === 'knot' ? 'p-4 sm:p-6' : 'p-3 sm:p-5'}`}
                   src={stepImages[step.image]}
                   alt=""
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="min-w-0 py-3">
