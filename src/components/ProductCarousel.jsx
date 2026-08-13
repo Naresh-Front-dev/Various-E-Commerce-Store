@@ -36,11 +36,11 @@ function ProductCarousel({ onAdd }) {
   return (
     <section
       id="shop"
-      className="relative min-w-0 scroll-mt-24 xl:w-[45vw] xl:max-w-[864px]"
+      className="relative min-w-0 scroll-mt-24 lg:w-[45vw] lg:max-w-[864px]"
       aria-label="Featured products"
     >
       <div
-        className="cursor-grab overflow-hidden rounded-xl outline-none active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217]"
+        className="cursor-grab overflow-hidden outline-none active:cursor-grabbing focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217]"
         role="region"
         aria-roledescription="carousel"
         aria-label="Product carousel"
@@ -79,7 +79,7 @@ function ProductCarousel({ onAdd }) {
         </div>
       </div>
 
-      <div className="mt-10 flex items-center justify-end gap-[clamp(12px,0.938vw,18px)] sm:mt-14 xl:absolute xl:right-0 xl:top-full xl:mt-[clamp(52px,3.85vw,74px)]">
+      <div className="mt-10 flex items-center justify-center sm:justify-end gap-[clamp(12px,0.938vw,18px)] sm:mt-14 lg:absolute lg:right-0 lg:top-full lg:mt-[clamp(52px,3.85vw,74px)]">
         {productPages.map((_, index) => (
           <button
             className="relative h-2 w-[clamp(64px,5vw,96px)] cursor-pointer overflow-hidden rounded-full bg-[#2f2218]/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217]"

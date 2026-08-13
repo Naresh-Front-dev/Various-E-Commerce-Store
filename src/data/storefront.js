@@ -177,6 +177,14 @@ export const collectionGroups = [
   },
 ]
 
+export const searchableProducts = Array.from(
+  new Map(
+    [...productPages.flat(), ...collectionGroups.flatMap((collection) => collection.products)].map(
+      (product) => [product.id, product],
+    ),
+  ).values(),
+)
+
 export const guidanceSteps = [
   {
     number: '1.',

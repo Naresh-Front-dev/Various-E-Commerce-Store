@@ -8,13 +8,17 @@ import Header from '../components/Header'
 import HeroIntro from '../components/HeroIntro'
 import PromiseSection from '../components/PromiseSection'
 import ProductCarousel from '../components/ProductCarousel'
+import SearchResults from '../components/SearchResults'
+import { searchableProducts } from '../data/storefront'
 
 function Home() {
   const [cartItems, setCartItems] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
+  const [searchRequest, setSearchRequest] = useState(null)
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
   const closeCart = useCallback(() => setCartOpen(false), [])
+  const clearSearch = useCallback(() => setSearchRequest(null), [])
 
   const addToCart = (product) => {
     setCartItems((items) => {
@@ -42,17 +46,49 @@ function Home() {
     setCartItems((items) => items.filter((item) => item.id !== productId))
   }
 
+  const searchProducts = useCallback((keyword) => {
+    const query = keyword.trim()
+    if (!query) return
+
+    const terms = query.toLocaleLowerCase().split(/\s+/)
+    const products = searchableProducts.filter((product) => {
+      const searchableText = `${product.name} ${product.alt} ${product.price}`.toLocaleLowerCase()
+      return terms.every((term) => searchableText.includes(term))
+    })
+
+    setSearchRequest({ query, products })
+    window.requestAnimationFrame(() => {
+      document.getElementById('search-results')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      })
+    })
+  }, [])
+
   return (
     <div className="min-h-svh min-w-0 bg-[#f7f3ef] text-[#2f2217]">
-      <Header cartCount={cartCount} cartOpen={cartOpen} onCartOpen={() => setCartOpen(true)} />
+      <Header
+        cartCount={cartCount}
+        cartOpen={cartOpen}
+        onCartOpen={() => setCartOpen(true)}
+        onSearch={searchProducts}
+        onSearchClose={clearSearch}
+      />
 
       <main className="min-w-0">
-        <section id="home" className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 xl:min-h-[clamp(620px,40.677vw,781px)] xl:py-0" aria-label="Introduction">
-          <div className="mx-auto grid w-full max-w-[1792px] min-w-0 grid-cols-1 items-center gap-16 md:gap-20 xl:-translate-y-3.5 xl:grid-cols-[minmax(0,1fr)_auto] xl:gap-[clamp(32px,3.333vw,64px)]">
+        {searchRequest && (
+          <SearchResults
+            query={searchRequest.query}
+            products={searchRequest.products}
+            onAdd={addToCart}
+          />
+        )}
+        <section id="home" className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 lg:min-h-[clamp(620px,40.677vw,781px)] lg:py-0" aria-label="Introduction">
+          <div className="mx-auto grid w-full max-w-[1792px] min-w-0 grid-cols-1 items-center gap-16 md:gap-20 lg:-translate-y-3.5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-[clamp(32px,3.333vw,64px)]">
             <HeroIntro />
             <ProductCarousel onAdd={addToCart} />
           </div>
-        </section>
+        </section> 
 
         <BenefitsBar />
         <CollectionShowcase onAdd={addToCart} />

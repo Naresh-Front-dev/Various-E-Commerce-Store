@@ -18,7 +18,7 @@ function ChevronIcon({ direction }) {
   )
 }
 
-function CollectionCard({ product, onAdd, emphasized = false }) {
+function CollectionCard({ product, onAdd }) {
   return (
     <article className="w-[min(78vw,340px)] shrink-0 sm:w-[320px] xl:w-[clamp(300px,20.833vw,400px)]">
       <div className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-white ring-1 ring-[#2f2217]/20 ring-inset">
@@ -34,9 +34,7 @@ function CollectionCard({ product, onAdd, emphasized = false }) {
       <h3 className="mt-4 text-xl font-medium leading-[1.2] tracking-[-0.025em] xl:text-[clamp(20px,1.458vw,28px)]">
         {product.name}
       </h3>
-      <p className={`mt-2 inline-flex rounded px-2.5 py-2 text-sm font-medium leading-none text-[#f7f3ef] xl:text-[clamp(14px,1.042vw,20px)] ${
-        emphasized ? 'bg-[#2f2217]' : 'bg-[#88827d]'
-      }`}>
+      <p className="mt-2 inline-flex rounded-[4px] bg-[#2f2217] px-2.5 py-2 text-sm font-medium leading-none text-[#f7f3ef] xl:text-[clamp(14px,1.042vw,20px)]">
         {product.price}
       </p>
     </article>
@@ -63,7 +61,7 @@ function CollectionShowcase({ onAdd }) {
 
   return (
     <section id="collections" className="mt-20 overflow-hidden md:mt-24 xl:mt-[120px]" aria-labelledby="collections-title">
-      <div className="px-[var(--page-gutter)]">
+      <div className="px-[var(--content-inset)]">
         <div className="mx-auto max-w-[1792px]">
           <SectionEyebrow>Featured Collections</SectionEyebrow>
           <h2 id="collections-title" className="sr-only">
@@ -89,17 +87,17 @@ function CollectionShowcase({ onAdd }) {
 
       <div
         ref={trackRef}
-        className="mt-12 flex snap-x snap-mandatory scroll-pl-[var(--page-gutter)] scroll-pr-[var(--page-gutter)] gap-6 overflow-x-auto scroll-smooth pl-[var(--page-gutter)] pr-[var(--page-gutter)] [scrollbar-width:none] md:mt-14 md:gap-8 xl:mt-16 xl:gap-[clamp(32px,2.5vw,48px)] [&::-webkit-scrollbar]:hidden"
+        className="mt-12 flex snap-x snap-mandatory scroll-pl-[var(--content-inset)] scroll-pr-[var(--content-inset)] gap-6 overflow-x-auto scroll-smooth pl-[var(--content-inset)] pr-[var(--content-inset)] [scrollbar-width:none] md:mt-14 md:gap-8 xl:mt-16 xl:gap-[clamp(32px,2.5vw,48px)] [&::-webkit-scrollbar]:hidden"
         aria-label={`${activeCollection.label} products`}
       >
-        {activeCollection.products.map((product, index) => (
+        {activeCollection.products.map((product) => (
           <div className="snap-start" key={product.id}>
-            <CollectionCard product={product} onAdd={onAdd} emphasized={index === 0} />
+            <CollectionCard product={product} onAdd={onAdd} />
           </div>
         ))}
       </div>
 
-      <div className="mt-10 px-[var(--page-gutter)] xl:mt-16">
+      <div className="mt-10 px-[var(--content-inset)] xl:mt-16">
         <div className="mx-auto flex max-w-[1792px] items-center gap-8">
           <span className="h-px min-w-0 flex-1 bg-[#2f2217]/25" aria-hidden="true" />
           <div className="flex shrink-0 items-center gap-2">
