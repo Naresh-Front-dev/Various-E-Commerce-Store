@@ -1,0 +1,75 @@
+import { useCallback, useState } from 'react'
+import BenefitsBar from '../components/BenefitsBar'
+import CartDrawer from '../components/CartDrawer'
+import CollectionShowcase from '../components/CollectionShowcase'
+import Footer from '../components/Footer'
+import GuidanceSection from '../components/GuidanceSection'
+import Header from '../components/Header'
+import HeroIntro from '../components/HeroIntro'
+import PromiseSection from '../components/PromiseSection'
+import ProductCarousel from '../components/ProductCarousel'
+
+function Home() {
+  const [cartItems, setCartItems] = useState([])
+  const [cartOpen, setCartOpen] = useState(false)
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
+
+  const closeCart = useCallback(() => setCartOpen(false), [])
+
+  const addToCart = (product) => {
+    setCartItems((items) => {
+      const existingItem = items.find((item) => item.id === product.id)
+      if (existingItem) {
+        return items.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
+        )
+      }
+      return [...items, { ...product, quantity: 1 }]
+    })
+  }
+
+  const updateQuantity = (productId, change) => {
+    setCartItems((items) =>
+      items
+        .map((item) =>
+          item.id === productId ? { ...item, quantity: item.quantity + change } : item,
+        )
+        .filter((item) => item.quantity > 0),
+    )
+  }
+
+  const removeFromCart = (productId) => {
+    setCartItems((items) => items.filter((item) => item.id !== productId))
+  }
+
+  return (
+    <div className="min-h-svh min-w-0 bg-[#f7f3ef] text-[#2f2217]">
+      <Header cartCount={cartCount} cartOpen={cartOpen} onCartOpen={() => setCartOpen(true)} />
+
+      <main className="min-w-0">
+        <section id="home" className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 xl:min-h-[clamp(620px,40.677vw,781px)] xl:py-0" aria-label="Introduction">
+          <div className="mx-auto grid w-full max-w-[1792px] min-w-0 grid-cols-1 items-center gap-16 md:gap-20 xl:-translate-y-3.5 xl:grid-cols-[minmax(0,1fr)_auto] xl:gap-[clamp(32px,3.333vw,64px)]">
+            <HeroIntro />
+            <ProductCarousel onAdd={addToCart} />
+          </div>
+        </section>
+
+        <BenefitsBar />
+        <CollectionShowcase onAdd={addToCart} />
+        <PromiseSection />
+        <GuidanceSection />
+      </main>
+
+      <Footer />
+      <CartDrawer
+        open={cartOpen}
+        items={cartItems}
+        onClose={closeCart}
+        onQuantityChange={updateQuantity}
+        onRemove={removeFromCart}
+      />
+    </div>
+  )
+}
+
+export default Home
