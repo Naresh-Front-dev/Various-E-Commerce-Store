@@ -31,19 +31,51 @@ function GuidanceSection() {
 
   useGSAP(
     () => {
-      const panel = sectionRef.current?.querySelector('[data-guidance-panel]')
       const mark = sectionRef.current?.querySelector('[data-guidance-mark]')
       const rings = gsap.utils.toArray(sectionRef.current?.querySelectorAll('[data-guidance-ring]'))
       const copy = gsap.utils.toArray(sectionRef.current?.querySelectorAll('[data-guidance-copy] > *'))
       const action = sectionRef.current?.querySelector('[data-guidance-action]')
       const steps = gsap.utils.toArray(sectionRef.current?.querySelectorAll('[data-guidance-step]'))
       const images = gsap.utils.toArray(sectionRef.current?.querySelectorAll('[data-guidance-image]'))
-      const animatedElements = [panel, mark, ...rings, ...copy, action, ...steps, ...images].filter(Boolean)
+      const animatedElements = [mark, ...rings, ...copy, action, ...steps, ...images].filter(Boolean)
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(animatedElements, { clearProps: 'all' })
         return undefined
       }
+
+      gsap.set(mark, {
+        autoAlpha: 0,
+        rotation: -5,
+        scale: 0.9,
+        transformOrigin: '50% 50%',
+        willChange: 'transform,opacity',
+      })
+      gsap.set(rings, {
+        scale: 0.86,
+        transformOrigin: '50% 50%',
+        willChange: 'transform',
+      })
+      gsap.set(copy, {
+        autoAlpha: 0,
+        y: 16,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(action, {
+        autoAlpha: 0,
+        y: 12,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(steps, {
+        autoAlpha: 0,
+        y: 18,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(images, {
+        scale: 0.975,
+        transformOrigin: '50% 50%',
+        willChange: 'transform',
+      })
 
       const timeline = gsap.timeline({
         defaults: { ease: 'power2.out' },
@@ -58,49 +90,37 @@ function GuidanceSection() {
 
       timeline
         .addLabel('reveal')
-        .fromTo(
-          panel,
-          { autoAlpha: 0, y: 28 },
-          { autoAlpha: 1, y: 0, duration: 0.55 },
+        .to(
+          mark,
+          { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.55 },
           'reveal',
         )
-        .fromTo(
-          mark,
-          { autoAlpha: 0, scale: 0.86, rotation: -7 },
-          { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.55 },
-          'reveal+=0.08',
-        )
-        .fromTo(
+        .to(
           rings,
-          { autoAlpha: 0, scale: 0.72 },
-          { autoAlpha: 1, scale: 1, duration: 0.42, stagger: 0.06 },
-          'reveal+=0.16',
+          { scale: 1, duration: 0.52, stagger: 0.05 },
+          'reveal+=0.06',
         )
-        .fromTo(
+        .to(
           copy,
-          { autoAlpha: 0, y: 18 },
-          { autoAlpha: 1, y: 0, duration: 0.48, stagger: 0.08 },
-          'reveal+=0.16',
+          { autoAlpha: 1, y: 0, duration: 0.52, stagger: 0.08 },
+          'reveal+=0.1',
         )
-        .fromTo(
+        .to(
           action,
-          { autoAlpha: 0, y: 14 },
-          { autoAlpha: 1, y: 0, duration: 0.42 },
-          'reveal+=0.34',
-        )
-        .fromTo(
-          steps,
-          { autoAlpha: 0, y: 20, scale: 0.99 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.52, stagger: 0.1 },
-          'reveal+=0.18',
-        )
-        .fromTo(
-          images,
-          { autoAlpha: 0, scale: 0.95 },
-          { autoAlpha: 1, scale: 1, duration: 0.45, stagger: 0.1 },
+          { autoAlpha: 1, y: 0, duration: 0.46 },
           'reveal+=0.28',
         )
-        .set(animatedElements, { clearProps: 'transform,opacity,visibility' })
+        .to(
+          steps,
+          { autoAlpha: 1, y: 0, duration: 0.58, stagger: 0.1 },
+          'reveal+=0.12',
+        )
+        .to(
+          images,
+          { scale: 1, duration: 0.7, stagger: 0.1 },
+          'reveal+=0.16',
+        )
+        .set(animatedElements, { willChange: 'auto' })
 
       return undefined
     },
@@ -138,8 +158,9 @@ function GuidanceSection() {
                   className={`size-full object-contain ${step.image === 'knot' ? 'p-4 sm:p-6' : 'p-3 sm:p-5'}`}
                   src={stepImages[step.image]}
                   alt=""
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
+                  fetchPriority="low"
                 />
               </div>
               <div className="min-w-0 py-3">

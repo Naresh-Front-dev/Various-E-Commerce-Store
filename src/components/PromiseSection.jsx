@@ -29,6 +29,32 @@ function PromiseSection() {
         return undefined
       }
 
+      gsap.set(copy, {
+        autoAlpha: 0,
+        y: 18,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(rings, {
+        autoAlpha: 0,
+        scale: 0.88,
+        transformOrigin: '50% 50%',
+        willChange: 'transform,opacity',
+      })
+      gsap.set(topImage, {
+        autoAlpha: 0,
+        y: -14,
+        scale: 0.985,
+        transformOrigin: '50% 50%',
+        willChange: 'transform,opacity',
+      })
+      gsap.set(bottomImage, {
+        autoAlpha: 0,
+        y: 14,
+        scale: 0.985,
+        transformOrigin: '50% 50%',
+        willChange: 'transform,opacity',
+      })
+
       const timeline = gsap.timeline({
         defaults: { ease: 'power2.out' },
         scrollTrigger: {
@@ -42,41 +68,27 @@ function PromiseSection() {
 
       timeline
         .addLabel('reveal')
-        .fromTo(
+        .to(
           copy,
-          { autoAlpha: 0, y: 22 },
           { autoAlpha: 1, y: 0, duration: 0.52, stagger: 0.085 },
           'reveal',
         )
-        .fromTo(
+        .to(
           rings,
-          { autoAlpha: 0, scale: 0.84, transformOrigin: '50% 50%' },
           { autoAlpha: 1, scale: 1, duration: 0.62, stagger: 0.055 },
           'reveal+=0.08',
         )
-        .fromTo(
+        .to(
           topImage,
-          {
-            autoAlpha: 0,
-            x: () => (window.innerWidth >= 768 ? 26 : 0),
-            y: () => (window.innerWidth >= 768 ? -18 : 18),
-            scale: 0.97,
-          },
-          { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.68 },
           'reveal+=0.16',
         )
-        .fromTo(
+        .to(
           bottomImage,
-          {
-            autoAlpha: 0,
-            x: () => (window.innerWidth >= 768 ? -26 : 0),
-            y: 18,
-            scale: 0.97,
-          },
-          { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.68 },
           'reveal+=0.27',
         )
-        .set(animatedElements, { clearProps: 'transform,opacity,visibility' })
+        .set(animatedElements, { willChange: 'auto' })
 
       return undefined
     },
@@ -115,16 +127,18 @@ function PromiseSection() {
             className="absolute right-0 top-0 aspect-square w-1/2 rounded-xl object-cover"
             src={blackDish}
             alt="Black ceramic dish photographed individually"
-            loading="lazy"
+            loading="eager"
             decoding="async"
+            fetchPriority="low"
             data-promise-image="top"
           />
           <img
             className="absolute bottom-0 left-0 aspect-square w-1/2 rounded-xl object-cover"
             src={mineralDish}
             alt="Speckled ceramic dish with a green mineral"
-            loading="lazy"
+            loading="eager"
             decoding="async"
+            fetchPriority="low"
             data-promise-image="bottom"
           />
         </div>

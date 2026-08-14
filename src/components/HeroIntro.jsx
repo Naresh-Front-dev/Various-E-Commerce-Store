@@ -10,59 +10,67 @@ function HeroIntro() {
 
   useGSAP(
     () => {
-      const animatedElements = gsap.utils.toArray(
-        heroRef.current?.querySelectorAll('[data-hero-reveal]'),
+      const titleLines = gsap.utils.toArray(
+        heroRef.current?.querySelectorAll('[data-hero-title] > *'),
       )
+      const paragraph = heroRef.current?.querySelector('[data-hero-copy]')
+      const action = heroRef.current?.querySelector('[data-hero-action]')
+      const animatedElements = [...titleLines, paragraph, action].filter(Boolean)
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(animatedElements, { clearProps: 'all' })
         return undefined
       }
 
-      const titleLines = gsap.utils.toArray(
-        heroRef.current?.querySelectorAll('[data-hero-title] > *'),
-      )
-      const paragraph = heroRef.current?.querySelector('[data-hero-copy]')
-      const action = heroRef.current?.querySelector('[data-hero-action]')
+      gsap.set(titleLines, {
+        autoAlpha: 0,
+        y: 24,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(paragraph, {
+        autoAlpha: 0,
+        y: 16,
+        willChange: 'transform,opacity',
+      })
+      gsap.set(action, {
+        autoAlpha: 0,
+        y: 12,
+        willChange: 'transform,opacity',
+      })
 
       const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
       timeline
         .addLabel('intro')
-        .fromTo(
+        .to(
           titleLines,
-          { autoAlpha: 0, y: 26 },
           {
             autoAlpha: 1,
             y: 0,
             duration: 0.62,
             stagger: 0.09,
-            clearProps: 'transform,opacity,visibility',
           },
           'intro',
         )
-        .fromTo(
+        .to(
           paragraph,
-          { autoAlpha: 0, y: 18 },
           {
             autoAlpha: 1,
             y: 0,
             duration: 0.52,
-            clearProps: 'transform,opacity,visibility',
           },
           'intro+=0.18',
         )
-        .fromTo(
+        .to(
           action,
-          { autoAlpha: 0, y: 14 },
           {
             autoAlpha: 1,
             y: 0,
             duration: 0.46,
-            clearProps: 'transform,opacity,visibility',
           },
           'intro+=0.32',
         )
+        .set(animatedElements, { willChange: 'auto' })
 
       return () => timeline.kill()
     },
