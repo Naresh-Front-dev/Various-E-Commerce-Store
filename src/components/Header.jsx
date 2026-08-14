@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { navigationLinks } from '../data/storefront'
+import usePageScrollLock from '../hooks/usePageScrollLock'
 import Button from './ui/Button'
 import IconButton from './ui/IconButton'
 
@@ -149,6 +150,9 @@ function MobileMenuSearch({ onSearch, onComplete }) {
 function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+
+  usePageScrollLock(menuOpen)
+
   const headerRef = useRef(null)
   const headerShellRef = useRef(null)
   const desktopRowRef = useRef(null)
@@ -460,6 +464,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
 
   return (
     <header
+      id="site-header"
       ref={headerRef}
       className="fixed inset-x-0 top-0 z-50 flex-none border-b border-black/30 bg-white px-[var(--content-inset)] py-5 xl:py-[clamp(20px,1.667vw,32px)]"
     >
@@ -570,7 +575,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
       {menuOpen && (
         <div
           id="mobile-navigation"
-          className="absolute inset-x-0 top-full max-h-[calc(100dvh-88px)] overflow-y-auto border-b border-black/20 bg-white shadow-lg lg:hidden"
+          className="fixed inset-x-0 bottom-0 top-[var(--header-height)] overflow-y-auto overscroll-contain border-b border-black/20 bg-white shadow-lg lg:hidden"
         >
           <MobileMenuSearch onSearch={onSearch} onComplete={() => setMenuOpen(false)} />
           <Navigation mobile onNavigate={handleNavigate} />

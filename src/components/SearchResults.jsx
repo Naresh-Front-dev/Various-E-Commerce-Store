@@ -5,8 +5,9 @@ import ProductCard from './ProductCard'
 
 gsap.registerPlugin(useGSAP)
 
-function SearchResults({ query, products, onAdd }) {
-  const sectionRef = useRef(null)
+function SearchResults({ query, products, onAdd, resultsRef }) {
+  const localSectionRef = useRef(null)
+  const sectionRef = resultsRef || localSectionRef
 
   useGSAP(
     () => {
@@ -77,7 +78,7 @@ function SearchResults({ query, products, onAdd }) {
     <section
       ref={sectionRef}
       id="search-results"
-      className="scroll-mt-6 px-[var(--page-gutter)] py-14 md:py-16"
+      className="scroll-mt-[calc(var(--header-height)+1rem)] px-[var(--page-gutter)] py-14 md:py-16"
       aria-labelledby="search-results-title"
       aria-live="polite"
     >

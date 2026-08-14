@@ -19,6 +19,7 @@ function Home() {
   const [cartToast, setCartToast] = useState(null)
   const [searchRequest, setSearchRequest] = useState(null)
   const toastId = useRef(0)
+  const searchResultsRef = useRef(null)
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
   const closeCart = useCallback(() => setCartOpen(false), [])
@@ -66,7 +67,21 @@ function Home() {
   }, [])
 
   useLayoutEffect(() => {
-    const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh())
+    const refreshFrame = window.requestAnimationFrame(() => {
+      ScrollTrigger.refresh()
+
+      if (!searchRequest || !searchResultsRef.current) return
+
+      const header = document.getElementById('site-header')
+      const headerHeight = header?.getBoundingClientRect().height || 0
+      const sectionTop = searchResultsRef.current.getBoundingClientRect().top + window.scrollY
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      window.scrollTo({
+        top: Math.max(0, sectionTop - headerHeight - 16),
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      })
+    })
     return () => window.cancelAnimationFrame(refreshFrame)
   }, [searchRequest])
 
@@ -86,6 +101,7 @@ function Home() {
             query={searchRequest.query}
             products={searchRequest.products}
             onAdd={addToCart}
+            resultsRef={searchResultsRef}
           />
         )}
         <section className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 lg:min-h-[clamp(620px,40.677vw,781px)] lg:py-0" aria-label="Introduction">

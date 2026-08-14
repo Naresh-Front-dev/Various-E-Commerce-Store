@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import Button from './ui/Button'
 import IconButton from './ui/IconButton'
 import QuantityControl from './ui/QuantityControl'
+import usePageScrollLock from '../hooks/usePageScrollLock'
 
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -81,20 +82,19 @@ function CartDrawer({ open, items, onClose, onQuantityChange, onRemove }) {
     0,
   )
 
+  usePageScrollLock(open)
+
   useEffect(() => {
     if (!open) return undefined
 
-    const previousOverflow = document.body.style.overflow
     const closeOnEscape = (event) => {
       if (event.key === 'Escape') onClose()
     }
 
-    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', closeOnEscape)
     closeButtonRef.current?.focus()
 
     return () => {
-      document.body.style.overflow = previousOverflow
       window.removeEventListener('keydown', closeOnEscape)
     }
   }, [open, onClose])
