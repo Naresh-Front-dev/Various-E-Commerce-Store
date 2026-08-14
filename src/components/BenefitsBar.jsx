@@ -58,7 +58,7 @@ function BenefitIcon({ index }) {
 
 function BenefitsBar() {
   return (
-    <section className="bg-[#2f2218] px-[var(--page-gutter)] py-6 text-white xl:py-[clamp(24px,1.667vw,32px)] lg:mt-3" aria-label="Shopping benefits">
+    <section id="benefits" className="bg-[#2f2218] px-[var(--page-gutter)] py-6 text-white xl:py-[clamp(24px,1.667vw,32px)] lg:mt-3" aria-label="Shopping benefits">
       <div className="mx-auto grid w-full max-w-[1792px] grid-cols-2 gap-x-5 gap-y-6 md:grid-cols-3 xl:grid-cols-5 xl:justify-between xl:gap-4">
         {benefits.map((benefit, index) => (
           <div className="flex min-w-0 items-center gap-[clamp(10px,0.833vw,16px)]" key={benefit}>

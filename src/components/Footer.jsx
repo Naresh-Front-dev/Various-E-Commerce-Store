@@ -25,9 +25,9 @@ function FooterLinkColumn({ title, links }) {
       <h3 className="text-[11px] uppercase tracking-[0.2em] text-[#c7a980]">{title}</h3>
       <ul className="mt-5 space-y-3 text-sm text-[#f7f3ef]/65 xl:text-[15px]">
         {links.map((link) => (
-          <li key={link}>
-            <a className="transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none" href="#shop">
-              {link}
+          <li key={link.label}>
+            <a className="rounded-sm transition-colors hover:text-white focus-visible:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c7a980]" href={link.href}>
+              {link.label}
             </a>
           </li>
         ))}
@@ -128,6 +128,7 @@ function Footer() {
           <div className="mx-auto flex max-w-[1792px] flex-col gap-8 py-10 text-xs text-[#f7f3ef]/35 sm:flex-row sm:items-center sm:justify-between xl:min-h-[159px] xl:py-8">
             <p>© 2025 Various. All rights reserved.</p>
             <nav className="flex flex-wrap gap-x-8 gap-y-3" aria-label="Legal">
+              <a className="hover:text-white" href="#home">Back to top &uarr;</a>
               <a className="hover:text-white" href="#home">Privacy Policy</a>
               <a className="hover:text-white" href="#home">Terms of Service</a>
               <a className="hover:text-white" href="#home">Refund Policy</a>

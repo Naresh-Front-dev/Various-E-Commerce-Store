@@ -98,7 +98,7 @@ function Home() {
               onAdd={addToCart}
             />
           )}
-          <section id="home" className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 lg:min-h-[clamp(620px,40.677vw,781px)] lg:py-0" aria-label="Introduction">
+          <section className="flex min-h-[580px] items-center px-[var(--page-gutter)] py-14 md:py-16 lg:min-h-[clamp(620px,40.677vw,781px)] lg:py-0" aria-label="Introduction">
             <div className="mx-auto grid w-full max-w-[1792px] min-w-0 grid-cols-1 items-center gap-16 md:gap-20 lg:-translate-y-3.5 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-[clamp(32px,3.333vw,64px)]">
               <HeroIntro />
               <ProductCarousel onAdd={addToCart} />

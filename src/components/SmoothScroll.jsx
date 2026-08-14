@@ -95,7 +95,7 @@ function SmoothScroll({ children, paused = false, refreshKey }) {
           const smoother = ScrollSmoother.create({
             wrapper: wrapperRef.current,
             content: contentRef.current,
-            smooth: 1.55,
+            smooth: 0.90,
             smoothTouch: false,
             effects: false,
             normalizeScroll: false,

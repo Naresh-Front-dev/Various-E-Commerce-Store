@@ -418,8 +418,18 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
     onSearch(query)
   }
 
+  const handleNavigate = () => {
+    setMenuOpen(false)
+    if (searchOpen) {
+      resetDesktopSearch()
+      return
+    }
+    onSearchClose()
+  }
+
   return (
     <header
+      id="home"
       ref={headerRef}
       className="relative z-40 flex-none border-b border-black/30 bg-white px-[var(--content-inset)] py-5 xl:py-[clamp(20px,1.667vw,32px)]"
     >
@@ -433,12 +443,13 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
             href="#home"
             className="shrink-0 py-1 font-[Zodiak] text-[34px] leading-none tracking-[-0.04em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217] lg:justify-self-start xl:py-[clamp(16px,1.51vw,29px)] xl:text-[clamp(34px,2.557vw,49.091px)]"
             aria-label="Various, home"
+            onClick={handleNavigate}
           >
             VARIOUS
           </a>
 
           <div ref={navigationRef} className="relative z-0 hidden min-w-0 flex-1 lg:block">
-            <Navigation />
+            <Navigation onNavigate={handleNavigate} />
           </div>
 
           <div className="relative z-10 ml-auto flex shrink-0 items-center gap-3 lg:ml-0 lg:justify-self-end">
@@ -503,7 +514,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
             >
               <CartIcon />
               {cartCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 grid min-h-5 min-w-5 place-items-center rounded-full bg-[#2f2217] p-1.5 text-[11px] leading-none text-white">
+                <span className="absolute -right-1.5 -top-1.5 grid min-h-5 min-w-5 place-items-center rounded-full bg-[#2f2217] p-1.5 px-2 text-[11px] leading-none text-white">
                   {cartCount}
                 </span>
               )}
@@ -527,7 +538,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
           className="absolute inset-x-0 top-full max-h-[calc(100dvh-88px)] overflow-y-auto border-b border-black/20 bg-white shadow-lg lg:hidden"
         >
           <MobileMenuSearch onSearch={onSearch} onComplete={() => setMenuOpen(false)} />
-          <Navigation mobile onNavigate={() => setMenuOpen(false)} />
+          <Navigation mobile onNavigate={handleNavigate} />
         </div>
       )}
     </header>

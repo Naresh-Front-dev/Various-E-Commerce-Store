@@ -15,7 +15,7 @@ export const navigationLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Shop All', href: '#shop' },
   { label: 'New In', href: '#shop' },
-  { label: 'Collections', href: '#shop' },
+  { label: 'Collections', href: '#collections' },
   { label: 'Sale', href: '#shop' },
   { label: 'About', href: '#about' },
   { label: 'Journal', href: '#journal' },
@@ -209,18 +209,44 @@ export const guidanceSteps = [
 export const footerColumns = [
   {
     title: 'Shop',
-    links: ['All Products', 'New In', 'Bestsellers', 'On Sale', 'Gift Ideas', 'Coming Soon', 'Archive'],
+    links: [
+      { label: 'All Products', href: '#shop' },
+      { label: 'New In', href: '#shop' },
+      { label: 'Bestsellers', href: '#shop' },
+      { label: 'On Sale', href: '#shop' },
+      { label: 'Gift Ideas', href: '#collections' },
+      { label: 'Coming Soon', href: '#collections' },
+      { label: 'Archive', href: '#collections' },
+    ],
   },
   {
     title: 'Collections',
-    links: ['Explore by Style', 'Natural Materials', 'Limited Editions', 'Bundles & Sets', 'Gift Sets'],
+    links: [
+      { label: 'Explore by Style', href: '#collections' },
+      { label: 'Natural Materials', href: '#collections' },
+      { label: 'Limited Editions', href: '#collections' },
+      { label: 'Bundles & Sets', href: '#collections' },
+      { label: 'Gift Sets', href: '#collections' },
+    ],
   },
   {
     title: 'Company',
-    links: ['Our Story', 'How It Works', 'Quality Promise', 'Sustainability', 'Journal'],
+    links: [
+      { label: 'Our Story', href: '#about' },
+      { label: 'How It Works', href: '#journal' },
+      { label: 'Quality Promise', href: '#about' },
+      { label: 'Sustainability', href: '#about' },
+      { label: 'Journal', href: '#journal' },
+    ],
   },
   {
     title: 'Help',
-    links: ['FAQ', 'Shipping & Returns', 'Track My Order', 'Contact Us', 'Wholesale'],
+    links: [
+      { label: 'FAQ', href: '#journal' },
+      { label: 'Shipping & Returns', href: '#benefits' },
+      { label: 'Track My Order', href: '#contact' },
+      { label: 'Contact Us', href: '#contact' },
+      { label: 'Wholesale', href: '#contact' },
+    ],
   },
 ]
