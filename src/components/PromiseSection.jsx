@@ -14,85 +14,71 @@ function PromiseSection() {
 
   useGSAP(
     () => {
-      const media = gsap.matchMedia()
-
-      media.add(
-        {
-          desktop: '(min-width: 768px)',
-          reduceMotion: '(prefers-reduced-motion: reduce)',
-        },
-        (context) => {
-          const copy = gsap.utils.toArray(
-            sectionRef.current?.querySelectorAll('[data-promise-copy] > *'),
-          )
-          const rings = gsap.utils.toArray(
-            sectionRef.current?.querySelectorAll('[data-promise-ring]'),
-          )
-          const topImage = sectionRef.current?.querySelector('[data-promise-image="top"]')
-          const bottomImage = sectionRef.current?.querySelector('[data-promise-image="bottom"]')
-          const animatedElements = [...copy, ...rings, topImage, bottomImage].filter(Boolean)
-
-          if (context.conditions.reduceMotion) {
-            gsap.set(animatedElements, { clearProps: 'all' })
-            return undefined
-          }
-
-          const isDesktop = context.conditions.desktop
-          const timeline = gsap.timeline({
-            defaults: { ease: 'power2.out' },
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: isDesktop ? 'top 76%' : 'top 82%',
-              toggleActions: 'play none none none',
-              once: true,
-            },
-          })
-
-          timeline
-            .addLabel('reveal')
-            .fromTo(
-              copy,
-              { autoAlpha: 0, y: 22 },
-              { autoAlpha: 1, y: 0, duration: 0.52, stagger: 0.085 },
-              'reveal',
-            )
-            .fromTo(
-              rings,
-              { autoAlpha: 0, scale: 0.84, transformOrigin: '50% 50%' },
-              { autoAlpha: 1, scale: 1, duration: 0.62, stagger: 0.055 },
-              'reveal+=0.08',
-            )
-            .fromTo(
-              topImage,
-              {
-                autoAlpha: 0,
-                x: isDesktop ? 26 : 0,
-                y: isDesktop ? -18 : 18,
-                scale: 0.97,
-              },
-              { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
-              'reveal+=0.16',
-            )
-            .fromTo(
-              bottomImage,
-              {
-                autoAlpha: 0,
-                x: isDesktop ? -26 : 0,
-                y: 18,
-                scale: 0.97,
-              },
-              { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
-              'reveal+=0.27',
-            )
-
-          return () => {
-            timeline.scrollTrigger?.kill()
-            timeline.kill()
-          }
-        },
+      const copy = gsap.utils.toArray(
+        sectionRef.current?.querySelectorAll('[data-promise-copy] > *'),
       )
+      const rings = gsap.utils.toArray(
+        sectionRef.current?.querySelectorAll('[data-promise-ring]'),
+      )
+      const topImage = sectionRef.current?.querySelector('[data-promise-image="top"]')
+      const bottomImage = sectionRef.current?.querySelector('[data-promise-image="bottom"]')
+      const animatedElements = [...copy, ...rings, topImage, bottomImage].filter(Boolean)
 
-      return () => media.revert()
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.set(animatedElements, { clearProps: 'all' })
+        return undefined
+      }
+
+      const timeline = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: () => (window.innerWidth >= 768 ? 'clamp(top 76%)' : 'clamp(top 82%)'),
+          toggleActions: 'play none none none',
+          invalidateOnRefresh: true,
+          once: true,
+        },
+      })
+
+      timeline
+        .addLabel('reveal')
+        .fromTo(
+          copy,
+          { autoAlpha: 0, y: 22 },
+          { autoAlpha: 1, y: 0, duration: 0.52, stagger: 0.085 },
+          'reveal',
+        )
+        .fromTo(
+          rings,
+          { autoAlpha: 0, scale: 0.84, transformOrigin: '50% 50%' },
+          { autoAlpha: 1, scale: 1, duration: 0.62, stagger: 0.055 },
+          'reveal+=0.08',
+        )
+        .fromTo(
+          topImage,
+          {
+            autoAlpha: 0,
+            x: () => (window.innerWidth >= 768 ? 26 : 0),
+            y: () => (window.innerWidth >= 768 ? -18 : 18),
+            scale: 0.97,
+          },
+          { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
+          'reveal+=0.16',
+        )
+        .fromTo(
+          bottomImage,
+          {
+            autoAlpha: 0,
+            x: () => (window.innerWidth >= 768 ? -26 : 0),
+            y: 18,
+            scale: 0.97,
+          },
+          { autoAlpha: 1, x: 0, y: 0, scale: 1, duration: 0.65 },
+          'reveal+=0.27',
+        )
+        .set(animatedElements, { clearProps: 'transform,opacity,visibility' })
+
+      return undefined
     },
     { scope: sectionRef },
   )
@@ -104,7 +90,7 @@ function PromiseSection() {
           <SectionEyebrow>Our Promise</SectionEyebrow>
           <h2
             id="promise-title"
-            className="mt-5 max-w-[966px] font-[Zodiak] text-[clamp(42px,10vw,64px)] leading-[0.98] tracking-[-0.04em] xl:text-[clamp(50px,3.333vw,64px)]"
+            className="mt-5 max-w-[966px] font-[Zodiak] text-[clamp(42px,10vw,54px)] leading-[0.98] tracking-[-0.04em] xl:text-[clamp(50px,3.333vw,64px)]"
           >
             The Exact Piece You See Is the Piece You Receive
           </h2>

@@ -126,7 +126,7 @@ function Footer() {
 
         <div className="px-[var(--page-gutter)]">
           <div className="mx-auto flex max-w-[1792px] flex-col gap-8 py-10 text-xs text-[#f7f3ef]/35 sm:flex-row sm:items-center sm:justify-between xl:min-h-[159px] xl:py-8">
-            <p>© 2025 Various. All rights reserved.</p>
+            <p>© 2026 Various. All rights reserved.</p>
             <nav className="flex flex-wrap gap-x-8 gap-y-3" aria-label="Legal">
               <a className="hover:text-white" href="#home">Back to top &uarr;</a>
               <a className="hover:text-white" href="#home">Privacy Policy</a>

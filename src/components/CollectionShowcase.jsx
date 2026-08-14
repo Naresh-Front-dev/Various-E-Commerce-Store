@@ -49,7 +49,7 @@ function CollectionShowcase({ onAdd }) {
 
   const selectCollection = (index) => {
     setActiveTab(index)
-    trackRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+    trackRef.current?.scrollTo({ left: 0 })
   }
 
   const move = (direction) => {
@@ -57,7 +57,12 @@ function CollectionShowcase({ onAdd }) {
     if (!track) return
     const card = track.querySelector('article')
     const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 24
-    track.scrollBy({ left: direction * ((card?.offsetWidth || track.clientWidth) + gap), behavior: 'smooth' })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    track.scrollBy({
+      left: direction * ((card?.offsetWidth || track.clientWidth) + gap),
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    })
   }
 
   return (
@@ -88,7 +93,7 @@ function CollectionShowcase({ onAdd }) {
 
       <div
         ref={trackRef}
-        className="mt-12 flex snap-x snap-mandatory scroll-pl-[var(--content-inset)] scroll-pr-[var(--content-inset)] gap-6 overflow-x-auto scroll-smooth pl-[var(--content-inset)] pr-[var(--content-inset)] [scrollbar-width:none] md:mt-14 md:gap-8 xl:mt-16 xl:gap-[clamp(32px,2.5vw,48px)] [&::-webkit-scrollbar]:hidden"
+        className="mt-12 flex snap-x snap-mandatory scroll-pl-[var(--content-inset)] scroll-pr-[var(--content-inset)] gap-6 overflow-x-auto pl-[var(--content-inset)] pr-[var(--content-inset)] [scrollbar-width:none] md:mt-14 md:gap-8 xl:mt-16 xl:gap-[clamp(32px,2.5vw,48px)] [&::-webkit-scrollbar]:hidden"
         aria-label={`${activeCollection.label} products`}
       >
         {activeCollection.products.map((product) => (

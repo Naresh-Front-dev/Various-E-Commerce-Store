@@ -49,8 +49,9 @@ function GuidanceSection() {
         defaults: { ease: 'power2.out' },
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 78%',
+          start: 'clamp(top 78%)',
           toggleActions: 'play none none none',
+          invalidateOnRefresh: true,
           once: true,
         },
       })
@@ -99,11 +100,9 @@ function GuidanceSection() {
           { autoAlpha: 1, scale: 1, duration: 0.45, stagger: 0.1 },
           'reveal+=0.28',
         )
+        .set(animatedElements, { clearProps: 'transform,opacity,visibility' })
 
-      return () => {
-        timeline.scrollTrigger?.kill()
-        timeline.kill()
-      }
+      return undefined
     },
     { scope: sectionRef },
   )

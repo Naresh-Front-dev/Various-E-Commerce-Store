@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { navigationLinks } from '../data/storefront'
@@ -231,32 +231,46 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
               defaults: { ease: reduceMotion ? 'none' : 'power3.inOut' },
             })
             .addLabel('transform', 0)
-            .to(
+            .fromTo(
               headerShellRef.current,
+              {
+                height: () => getMetrics().rowHeight,
+              },
               {
                 height: () => getMetrics().openHeight,
                 duration: expansionDuration,
               },
               'transform',
             )
-            .to(
+            .fromTo(
               searchContainerRef.current,
+              {
+                width: () => getMetrics().closedWidth,
+              },
               {
                 width: () => getMetrics().expandedWidth,
                 duration: expansionDuration,
               },
               'transform',
             )
-            .to(
+            .fromTo(
               navigationRef.current,
+              {
+                y: 0,
+              },
               {
                 y: () => getMetrics().navigationY,
                 duration: navigationDuration,
               },
               reduceMotion ? 'transform' : 'transform+=0.08',
             )
-            .to(
+            .fromTo(
               searchContentRef.current,
+              {
+                autoAlpha: 0,
+                x: 14,
+                pointerEvents: 'none',
+              },
               {
                 autoAlpha: 1,
                 x: 0,
@@ -266,8 +280,13 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
               },
               reduceMotion ? 'transform' : 'transform+=0.32',
             )
-            .to(
+            .fromTo(
               closeButtonRef.current,
+              {
+                autoAlpha: 0,
+                x: 8,
+                pointerEvents: 'none',
+              },
               {
                 autoAlpha: 1,
                 x: 0,
@@ -331,10 +350,29 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
     onSearchClose()
   }, [onSearchClose])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const desktopMedia = window.matchMedia('(min-width: 1024px)')
     let fontFrame = 0
     let disposed = false
+
+    const syncHeaderHeight = () => {
+      if (!headerRef.current || !desktopRowRef.current) return
+
+      const styles = window.getComputedStyle(headerRef.current)
+      const paddingTop = Number.parseFloat(styles.paddingTop) || 0
+      const paddingBottom = Number.parseFloat(styles.paddingBottom) || 0
+      const borderTop = Number.parseFloat(styles.borderTopWidth) || 0
+      const borderBottom = Number.parseFloat(styles.borderBottomWidth) || 0
+      const height = Math.ceil(
+        desktopRowRef.current.getBoundingClientRect().height
+          + paddingTop
+          + paddingBottom
+          + borderTop
+          + borderBottom,
+      )
+
+      document.documentElement.style.setProperty('--header-height', `${height}px`)
+    }
 
     const handleBreakpointChange = (event) => {
       if (event.matches) {
@@ -345,6 +383,8 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
     }
 
     const refreshTimelineLayout = () => {
+      syncHeaderHeight()
+
       const timeline = searchTimelineRef.current
       if (!timeline) return
 
@@ -361,6 +401,8 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
     const resizeObserver = new ResizeObserver(refreshTimelineLayout)
     if (desktopRowRef.current) resizeObserver.observe(desktopRowRef.current)
 
+    syncHeaderHeight()
+
     document.fonts?.ready.then(() => {
       if (disposed) return
       fontFrame = window.requestAnimationFrame(refreshTimelineLayout)
@@ -375,6 +417,7 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
       resizeObserver.disconnect()
       desktopMedia.removeEventListener('change', handleBreakpointChange)
       window.removeEventListener('resize', refreshTimelineLayout)
+      document.documentElement.style.removeProperty('--header-height')
     }
   }, [resetDesktopSearch])
 
@@ -403,7 +446,9 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
 
   const openCart = () => {
     setMenuOpen(false)
-    if (searchOpen) closeSearch(false)
+    if (searchOpen || (searchTimelineRef.current?.progress() ?? 0) > 0) {
+      resetDesktopSearch()
+    }
     onCartOpen()
   }
 
@@ -429,9 +474,8 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
 
   return (
     <header
-      id="home"
       ref={headerRef}
-      className="relative z-40 flex-none border-b border-black/30 bg-white px-[var(--content-inset)] py-5 xl:py-[clamp(20px,1.667vw,32px)]"
+      className="fixed inset-x-0 top-0 z-50 flex-none border-b border-black/30 bg-white px-[var(--content-inset)] py-5 xl:py-[clamp(20px,1.667vw,32px)]"
     >
       <div ref={headerShellRef} className="mx-auto w-full max-w-[1792px]">
         <div
