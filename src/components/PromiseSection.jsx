@@ -2,10 +2,10 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import arrowOutward from '../assets/icons/arrow-outward.svg'
 import blackDish from '../assets/images/black-ceramic-dish.jpg'
 import mineralDish from '../assets/images/mineral-dish.jpg'
 import SectionEyebrow from './SectionEyebrow'
+import ButtonLink from './ui/ButtonLink'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -97,13 +97,13 @@ function PromiseSection() {
           <p className="mt-9 max-w-[882px] text-base leading-[1.55] tracking-[-0.02em] text-[#2f2217]/75 xl:text-xl">
             Every item is photographed clearly and listed with key details like origin, materials and condition, so you can shop with confidence.
           </p>
-          <a
+          <ButtonLink
             className="mt-9 inline-flex min-h-12 items-center gap-2.5 rounded-lg bg-[#2f2217] px-4 py-3 text-base text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217] xl:min-h-[51px] xl:px-5 xl:text-lg"
             href="#journal"
+            showArrow
           >
             Learn More
-            <img className="size-5" src={arrowOutward} width="20" height="20" alt="" />
-          </a>
+          </ButtonLink>
         </div>
 
         <div className="relative mx-auto aspect-square w-full max-w-[620px] xl:max-w-[762px]" aria-label="Examples of individually photographed pieces">

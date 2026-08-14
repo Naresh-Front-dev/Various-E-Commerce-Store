@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import arrowOutward from '../assets/icons/arrow-outward.svg'
+import ButtonLink from './ui/ButtonLink'
 
 gsap.registerPlugin(useGSAP)
 
@@ -82,15 +82,16 @@ function HeroIntro() {
           collection built around care and craftsmanship.
         </p>
 
-        <a
+        <ButtonLink
           className="mt-8 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-lg bg-[#2f2217] px-4 py-3 text-base leading-[1.5] tracking-[0.01em] text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217] sm:mt-10 lg:mt-[clamp(32px,2.5vw,48px)] lg:text-[clamp(16px,0.938vw,18px)]"
           href="#shop"
+          iconClassName="size-6"
+          showArrow
           data-hero-action
           data-hero-reveal
         >
           Shop Now
-          <img className="size-6" src={arrowOutward} width="24" height="24" alt="" />
-        </a>
+        </ButtonLink>
       </div>
     </div>
   )

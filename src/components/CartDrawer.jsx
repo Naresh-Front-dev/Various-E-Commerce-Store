@@ -1,4 +1,7 @@
 import { useEffect, useRef } from 'react'
+import Button from './ui/Button'
+import IconButton from './ui/IconButton'
+import QuantityControl from './ui/QuantityControl'
 
 const currency = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -32,32 +35,6 @@ function EmptyCartIcon() {
   )
 }
 
-function QuantityControl({ item, onQuantityChange }) {
-  return (
-    <div className="inline-flex h-10 items-center rounded-full border border-[#2f2217]/20 bg-white" aria-label={`Quantity for ${item.name}`}>
-      <button
-        className="grid size-10 place-items-center rounded-full text-xl transition-colors hover:bg-[#eee7df] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#2f2217]"
-        type="button"
-        aria-label={`Decrease ${item.name} quantity`}
-        onClick={() => onQuantityChange(item.id, -1)}
-      >
-        −
-      </button>
-      <span className="min-w-8 text-center text-sm font-medium" aria-live="polite">
-        {item.quantity}
-      </span>
-      <button
-        className="grid size-10 place-items-center rounded-full text-xl transition-colors hover:bg-[#eee7df] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#2f2217]"
-        type="button"
-        aria-label={`Increase ${item.name} quantity`}
-        onClick={() => onQuantityChange(item.id, 1)}
-      >
-        +
-      </button>
-    </div>
-  )
-}
-
 function CartItem({ item, onQuantityChange, onRemove }) {
   return (
     <li className="grid grid-cols-[96px_minmax(0,1fr)] gap-5 py-6 sm:grid-cols-[112px_minmax(0,1fr)]">
@@ -77,7 +54,12 @@ function CartItem({ item, onQuantityChange, onRemove }) {
         </div>
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-          <QuantityControl item={item} onQuantityChange={onQuantityChange} />
+          <QuantityControl
+            label={item.name}
+            value={item.quantity}
+            onDecrease={() => onQuantityChange(item.id, -1)}
+            onIncrease={() => onQuantityChange(item.id, 1)}
+          />
           <button
             className="rounded-sm pb-1 text-xs text-[#2f2217]/55 underline decoration-[#2f2217]/30 underline-offset-4 transition-colors hover:text-[#2f2217] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217]"
             type="button"
@@ -152,15 +134,15 @@ function CartDrawer({ open, items, onClose, onQuantityChange, onRemove }) {
               {itemCount === 0 ? 'No pieces selected' : `${itemCount} ${itemCount === 1 ? 'piece' : 'pieces'} selected`}
             </p>
           </div>
-          <button
+          <IconButton
             ref={closeButtonRef}
-            className="grid size-11 shrink-0 place-items-center rounded-full border border-[#2f2217]/20 transition-colors hover:bg-[#f1ebe5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217]"
-            type="button"
-            aria-label="Close cart"
+            className="rounded-full"
+            label="Close cart"
+            variant="outline"
             onClick={onClose}
           >
             <CloseIcon />
-          </button>
+          </IconButton>
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 sm:px-8">
@@ -184,13 +166,14 @@ function CartDrawer({ open, items, onClose, onQuantityChange, onRemove }) {
               <p className="mt-3 max-w-[290px] text-sm leading-relaxed text-[#2f2217]/60">
                 Explore the collection and choose a piece with character.
               </p>
-              <button
-                className="mt-7 rounded-full border border-[#2f2217]/30 px-5 py-3 text-sm transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#2f2217]"
-                type="button"
+              <Button
+                className="mt-7 rounded-full px-5 py-3 text-sm"
+                size="none"
+                variant="outline"
                 onClick={onClose}
               >
                 Continue Shopping
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -203,13 +186,13 @@ function CartDrawer({ open, items, onClose, onQuantityChange, onRemove }) {
             </div>
             <p className="font-[Zodiak] text-3xl tracking-[-0.04em]">{currency.format(subtotal)}</p>
           </div>
-          <button
-            className="mt-6 flex min-h-14 w-full items-center justify-center rounded-lg bg-[#2f2217] px-6 text-base font-medium text-white transition-colors hover:bg-[#493525] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#2f2217] disabled:cursor-not-allowed disabled:opacity-40"
-            type="button"
+          <Button
+            className="mt-6 w-full rounded-lg text-base font-medium"
+            size="lg"
             disabled={items.length === 0}
           >
             Checkout
-          </button>
+          </Button>
         </footer>
       </aside>
     </div>

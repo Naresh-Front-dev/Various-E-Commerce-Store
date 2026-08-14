@@ -2,25 +2,10 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { navigationLinks } from '../data/storefront'
+import Button from './ui/Button'
+import IconButton from './ui/IconButton'
 
 gsap.registerPlugin(useGSAP)
-
-const actionClass =
-  'relative grid size-12 shrink-0 place-items-center rounded-[14px] bg-[#d9d9d9] text-[#2f2217] transition-colors hover:bg-[#c9c9c9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217]'
-
-function HeaderAction({ label, children, onClick, className = '', ...props }) {
-  return (
-    <button
-      className={`${actionClass} ${className}`}
-      type="button"
-      aria-label={label}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
 
 function SearchIcon() {
   return (
@@ -149,12 +134,13 @@ function MobileMenuSearch({ onSearch, onComplete }) {
           type="search"
           placeholder="Search products"
         />
-        <button
-          className="mr-1.5 grid min-h-11 shrink-0 place-items-center rounded-[8px] bg-[#2f2217] px-4 text-sm font-medium text-white transition-colors hover:bg-[#493627] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217] sm:px-5"
+        <Button
+          className="mr-1.5 shrink-0 rounded-[8px] px-4 text-sm font-medium sm:px-5"
+          size="sm"
           type="submit"
         >
           Search
-        </button>
+        </Button>
       </div>
     </form>
   )
@@ -550,8 +536,11 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
               </form>
             </div>
 
-            <HeaderAction
+            <IconButton
+              className="rounded-[14px]"
               label={`Cart with ${cartCount} items`}
+              size="lg"
+              variant="header"
               onClick={openCart}
               aria-expanded={cartOpen}
               aria-controls="cart-drawer"
@@ -562,16 +551,18 @@ function Header({ cartCount, cartOpen, onCartOpen, onSearch, onSearchClose }) {
                   {cartCount}
                 </span>
               )}
-            </HeaderAction>
-            <HeaderAction
-              className="lg:hidden"
+            </IconButton>
+            <IconButton
+              className="rounded-[14px] lg:hidden"
               label={menuOpen ? 'Close menu' : 'Open menu'}
+              size="lg"
+              variant="header"
               onClick={toggleMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
             >
               <MenuIcon open={menuOpen} />
-            </HeaderAction>
+            </IconButton>
           </div>
         </div>
       </div>

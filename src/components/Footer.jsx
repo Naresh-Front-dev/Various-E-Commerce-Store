@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import arrowOutward from '../assets/icons/arrow-outward.svg'
 import { benefits, footerColumns } from '../data/storefront'
+import Button from './ui/Button'
+import ButtonLink from './ui/ButtonLink'
 
 function FooterTicker() {
   const tickerItems = [...benefits.slice(0, 4), ...benefits.slice(0, 4)]
@@ -73,13 +74,16 @@ function Footer() {
               <p className="max-w-[790px] text-base leading-[1.55] text-[#f7f3ef]/55 xl:text-lg">
                 Various is a curated collection of thoughtfully sourced products, chosen for quality, character and craftsmanship. Each item is clearly photographed and described so you always know exactly what you’re getting.
               </p>
-              <a
-                className="mt-8 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#c7a980]/45 px-6 text-xs uppercase tracking-[0.16em] transition-colors hover:border-[#c7a980] hover:bg-[#c7a980] hover:text-[#2f2217] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c7a980]"
+              <ButtonLink
+                className="mt-8 min-h-12 gap-3 rounded-full px-6 text-xs uppercase tracking-[0.16em]"
                 href="#shop"
+                iconClassName="size-4"
+                showArrow
+                size="none"
+                variant="footer"
               >
                 Shop Now
-                <img className="size-4" src={arrowOutward} width="16" height="16" alt="" />
-              </a>
+              </ButtonLink>
             </div>
           </div>
         </section>
@@ -106,12 +110,14 @@ function Footer() {
                     required
                   />
                 </label>
-                <button
-                  className="h-11 shrink-0 rounded-lg bg-[#c7a980] px-4 text-xs font-medium uppercase tracking-[0.08em] text-[#2f2217] transition-colors hover:bg-[#ddc299] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c7a980]"
+                <Button
+                  className="h-11 shrink-0 rounded-lg px-4 text-xs font-medium uppercase tracking-[0.08em]"
+                  size="none"
                   type="submit"
+                  variant="accent"
                 >
                   Subscribe
-                </button>
+                </Button>
               </form>
               <p className="mt-3 min-h-5 text-xs text-[#c7a980]" aria-live="polite">
                 {subscribed ? 'Thank you — you’re on the list.' : ''}

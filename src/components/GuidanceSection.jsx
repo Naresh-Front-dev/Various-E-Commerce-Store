@@ -2,11 +2,11 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import arrowOutward from '../assets/icons/arrow-outward.svg'
 import knotImage from '../assets/images/ceramic-knot-sculpture.jpg'
 import bowlImage from '../assets/images/lidded-ceramic-bowl.jpg'
 import vaseImage from '../assets/images/small-clay-vase.jpg'
 import { guidanceSteps } from '../data/storefront'
+import ButtonLink from './ui/ButtonLink'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -120,14 +120,14 @@ function GuidanceSection() {
               Send us a message with what you’re looking for and we’ll help you find the perfect match.
             </p>
           </div>
-          <a
+          <ButtonLink
             className="mt-8 inline-flex min-h-12 items-center gap-2.5 rounded-lg bg-[#2f2217] px-4 py-3 text-base text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2f2217] xl:min-h-[51px] xl:px-5 xl:text-lg"
             href="#contact"
+            showArrow
             data-guidance-action
           >
             Get in Touch
-            <img className="size-5" src={arrowOutward} width="20" height="20" alt="" />
-          </a>
+          </ButtonLink>
         </div>
 
         <ol className="grid gap-3">

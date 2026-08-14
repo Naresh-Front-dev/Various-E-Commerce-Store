@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react'
-import arrowOutward from '../assets/icons/arrow-outward.svg'
 import { collectionGroups } from '../data/storefront'
 import AddToCartButton from './AddToCartButton'
 import SectionEyebrow from './SectionEyebrow'
+import ButtonLink from './ui/ButtonLink'
+import IconButton from './ui/IconButton'
 
 function ChevronIcon({ direction }) {
   return (
@@ -107,29 +108,31 @@ function CollectionShowcase({ onAdd }) {
         <div className="mx-auto flex max-w-[1792px] items-center gap-8">
           <span className="h-px min-w-0 flex-1 bg-[#2f2217]/25" aria-hidden="true" />
           <div className="flex shrink-0 items-center gap-2">
-            <button
-              className="grid size-11 place-items-center rounded-md bg-[#2f2217] text-white transition-colors hover:bg-[#493525] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217] sm:size-12 xl:size-14"
-              type="button"
-              aria-label="Previous products"
+            <IconButton
+              className="rounded-md sm:size-12 xl:size-14"
+              label="Previous products"
+              variant="dark"
               onClick={() => move(-1)}
             >
               <ChevronIcon direction="left" />
-            </button>
-            <a
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#2f2217] px-4 text-xs text-white transition-colors hover:bg-[#493525] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217] sm:min-h-12 sm:px-5 sm:text-sm xl:h-[52px] xl:w-[218px] xl:px-6"
+            </IconButton>
+            <ButtonLink
+              className="min-h-11 gap-2 rounded-md px-4 text-xs sm:min-h-12 sm:px-5 sm:text-sm xl:h-[52px] xl:w-[218px] xl:px-6"
               href="#shop"
+              iconClassName="size-4"
+              showArrow
+              size="none"
             >
               View All Products
-              <img className="size-4" src={arrowOutward} width="16" height="16" alt="" />
-            </a>
-            <button
-              className="grid size-11 place-items-center rounded-md bg-[#2f2217] text-white transition-colors hover:bg-[#493525] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f2217] sm:size-12 xl:size-14"
-              type="button"
-              aria-label="Next products"
+            </ButtonLink>
+            <IconButton
+              className="rounded-md sm:size-12 xl:size-14"
+              label="Next products"
+              variant="dark"
               onClick={() => move(1)}
             >
               <ChevronIcon direction="right" />
-            </button>
+            </IconButton>
           </div>
         </div>
       </div>
